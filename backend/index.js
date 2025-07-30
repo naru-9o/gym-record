@@ -30,12 +30,23 @@ app.post("/send-reminders", async (req, res) => {
   }
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
-});
+// Only serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve frontend static files
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+  });
+} else {
+  // Development route
+  app.get("/", (req, res) => {
+    res.json({ 
+      message: "Backend API is running!", 
+      frontend: "http://localhost:5173" 
+    });
+  });
+}
 
 // Start server
 const PORT = process.env.PORT || 5000;
