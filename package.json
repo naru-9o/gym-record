@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && npm start",
-    "client": "cd frontend && npm run dev"
+    "client": "cd frontend && npm run dev",
+    "build": "npm install && cd frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

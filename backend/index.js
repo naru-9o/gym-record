@@ -4,6 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const memberRoutes = require("./routes/memberRoutes");
 const { sendFeeReminders } = require("./utils/reminder");
+const path = require('path');
+
 
 dotenv.config();
 const app = express();
@@ -27,6 +29,15 @@ app.post("/send-reminders", async (req, res) => {
     res.status(500).json({ success: false, error: "Failed to send reminders", details: err.message });
   }
 });
+
+const __dirname = path.resolve()
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")))
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+})
+
 
 
 const PORT = process.env.PORT || 5000;
