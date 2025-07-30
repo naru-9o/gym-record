@@ -11,6 +11,9 @@
     "client": "cd frontend && npm run dev",
     "build": "npm install && cd backend && npm install && cd ../frontend && npm install && npm run build"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
