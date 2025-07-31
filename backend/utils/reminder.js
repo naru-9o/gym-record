@@ -1,7 +1,9 @@
 const cron = require("node-cron");
 const Member = require("../models/Member");
 const sgMail = require("@sendgrid/mail");
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

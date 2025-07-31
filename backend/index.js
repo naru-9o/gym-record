@@ -4,13 +4,13 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const memberRoutes = require("./routes/memberRoutes");
 const { sendFeeReminders } = require("./utils/reminder");
-const path = require("path");
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB error", err));
@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 // API routes
 app.use("/api/members", memberRoutes);
 
-// Manual trigger route
+// Manual trigger for reminders
 app.post("/send-reminders", async (req, res) => {
   try {
     await sendFeeReminders();
@@ -30,24 +30,16 @@ app.post("/send-reminders", async (req, res) => {
   }
 });
 
-// Only serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve frontend static files
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  
-  app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+// Root route (just a confirmation message)
+app.get("/", (req, res) => {
+  res.json({
+    message: "✅ Gym Backend API is running",
+    frontend: "http://localhost:5173",
   });
-} else {
-  // Development route
-  app.get("/", (req, res) => {
-    res.json({ 
-      message: "Backend API is running!", 
-      frontend: "http://localhost:5173" 
-    });
-  });
-}
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});

@@ -14,7 +14,7 @@ const MemberTable = () => {
   });
 
   const fetchMembers = async () => {
-    const res = await axios.get("http://localhost:5000/api/members");
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/members`);
     setMembers(res.data);
   };
 
@@ -35,7 +35,7 @@ const MemberTable = () => {
 
   const saveEdit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/members/${editId}`, editForm);
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/members/${editId}`, editForm);
       toast.success("Member details updated!");
       cancelEdit();
       fetchMembers();
@@ -52,7 +52,7 @@ const MemberTable = () => {
             <button
             className="bg-red-600 text-white px-2 py-1 rounded text-xs"
             onClick={async () => {
-                await axios.delete(`http://localhost:5000/api/members/${id}`);
+                await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/members/${id}`);
                 toast.dismiss();
                 toast.success("✅ Member deleted successfully!");
                 fetchMembers();
@@ -75,7 +75,7 @@ const MemberTable = () => {
 
   const markPaid = async (memberId, month) => {
     try {
-      await axios.put(`http://localhost:5000/api/members/${memberId}/payment`, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/members/${memberId}/payment`, {
         month,
         toggle: true
       });

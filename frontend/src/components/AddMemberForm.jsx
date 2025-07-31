@@ -17,7 +17,7 @@ const AddMemberForm = ({ onMemberAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/members", formData);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/members`, formData);
       toast.success("✅ Member added successfully!");
       setFormData({ memberId: "", name: "", phone: "", email: "" });
       onMemberAdded(); // refresh list

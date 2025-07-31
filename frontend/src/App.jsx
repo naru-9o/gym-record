@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function App() {
   const [refresh, setRefresh] = useState(false);
 
@@ -13,7 +14,7 @@ function App() {
   // 📤 Send reminders with toast
   const sendReminders = async () => {
     try {
-      await axios.post("http://localhost:5000/send-reminders");
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/send-reminders`);
       toast.success("✅ Reminders sent successfully!");
     } catch (err) {
       toast.error("❌ Failed to send reminders");
